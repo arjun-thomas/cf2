@@ -376,6 +376,52 @@ textarea.error { border-color: #c05555; }
     transform: none;
 }
 
+/* ── Submitting Overlay ───────────────────────────────── */
+#submittingOverlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(12, 11, 9, 0.94);
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    padding: 3rem;
+    backdrop-filter: none;
+}
+
+.submit-spinner {
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(196, 152, 60, 0.2);
+    border-top-color: var(--text-accent);
+    border-radius: 50%;
+    animation: submitSpin 0.75s linear infinite;
+    flex-shrink: 0;
+}
+
+@keyframes submitSpin {
+    to { transform: rotate(360deg); }
+}
+
+.submit-label {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: var(--text-accent);
+    margin: 0;
+}
+
+.submit-sub {
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
 /* ── Success / Error ──────────────────────────────────── */
 .success-message, .error-message {
     text-align: center;

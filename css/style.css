@@ -11,7 +11,7 @@
     --bg-card:          #111009;
     --bg-card-hover:    #181612;
     --text-primary:     #E8E2D4;
-    --text-secondary:   #6E6860;
+    --text-secondary:   #A09488;
     --text-accent:      #C4983C;
     --border-light:     rgba(232, 226, 212, 0.07);
     --border-accent:    rgba(196, 152, 60, 0.25);
@@ -878,6 +878,23 @@ footer > .container > p {
 #additionalFaq.expanded { display: grid !important; animation: fadeIn 0.35s ease forwards; }
 
 /* ── MOBILE NAV ───────────────────────────────────────── */
+/* ── TESTIMONIALS MOBILE ──────────────────────────────── */
+@media (max-width: 768px) {
+    .testimonials-row {
+        flex-direction: column !important;
+    }
+    .testimonials-row > div {
+        border-right: none !important;
+        border-bottom: 1px solid rgba(232,226,212,0.07);
+    }
+    .testimonials-row > div:last-child {
+        border-bottom: none;
+    }
+    .testimonial-card-mid {
+        border-right: none !important;
+    }
+}
+
 @media (max-width: 900px) {
     .nav-links {
         position: fixed;
@@ -940,4 +957,13 @@ footer > .container > p {
     .btn { padding: 0.8rem 1.5rem; font-size: 0.65rem; }
     .hero h1 { letter-spacing: 0.03em; }
     footer h2 { font-size: 1.3rem !important; }
+}
+
+/* ── MOBILE PERFORMANCE ───────────────────────────────── */
+/* Disable fixed grain overlay on mobile — causes scroll repaints */
+@media (max-width: 900px) {
+    body::before { display: none; }
+    /* Reduce will-change surface area on mobile */
+    .reveal { will-change: auto; }
+    .parallax-el { will-change: auto; }
 }
