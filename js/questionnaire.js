@@ -284,8 +284,26 @@ document.addEventListener('DOMContentLoaded', () => {
         updateRanks();
 
         const submitBtn = document.getElementById('submitBtn');
+        const overlay = document.getElementById('submittingOverlay');
+        const statusText = document.getElementById('submitStatusText');
         submitBtn.disabled = true;
-        submitBtn.innerText = 'Submitting...';
+
+        // Show overlay
+        overlay.style.display = 'flex';
+        steps[currentStep].style.visibility = 'hidden';
+
+        // Cycle status messages to reassure the user
+        const messages = [
+            'This may take a moment…',
+            'Encoding your files…',
+            'Uploading to our server…',
+            'Almost there…'
+        ];
+        let msgIdx = 0;
+        const msgTimer = setInterval(() => {
+            msgIdx = (msgIdx + 1) % messages.length;
+            statusText.textContent = messages[msgIdx];
+        }, 2200);
 
         const toBase64 = file => new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -341,8 +359,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const resp = grecaptcha.getResponse();
             if (!resp) {
                 alert('Please complete the CAPTCHA.');
+                clearInterval(msgTimer);
+                overlay.style.display = 'none';
+                steps[currentStep].style.visibility = '';
                 submitBtn.disabled = false;
-                submitBtn.innerText = 'Submit Questionnaire';
                 return;
             }
             data['g-recaptcha-response'] = resp;
@@ -362,11 +382,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
 
+            clearInterval(msgTimer);
+            overlay.style.display = 'none';
+            steps[currentStep].style.visibility = '';
             steps[currentStep].classList.remove('active');
             document.getElementById('successMessage').style.display = 'block';
             progressBar.style.width = '100%';
         } catch (err) {
             console.error('Submission error:', err);
+            clearInterval(msgTimer);
+            overlay.style.display = 'none';
+            steps[currentStep].style.visibility = '';
             steps[currentStep].classList.remove('active');
             document.getElementById('errorMessage').style.display = 'block';
         }
